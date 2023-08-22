@@ -150,20 +150,19 @@ def sendMessages(agt_mobile, message, file_base_name, filterby, release):
         x_axis, y_axis = status
 
         # Perform an action (e.g., clicking) at the identified coordinates
-
         send(x_axis, y_axis) if release != False else None
+        # Pause for a second
+        sleep(0.2)
+        adb(f'adb shell am force-stop com.whatsapp')
 
         # Log the status as Success
         log_status(agt_mobile, message, file_base_name, filterby, 'Success')
     else:
         # Log the status as Failed
         log_status(agt_mobile, message, file_base_name, filterby, 'Failed')
-
-    # Pause for a second
-    sleep(0.3)
+        adb(f'adb shell am force-stop com.whatsapp')
 
     # Force-stop the WhatsApp application
-    adb(f'adb shell am force-stop com.whatsapp')
 
     # Return True if the status is not None, otherwise return False
     return True if status else False
